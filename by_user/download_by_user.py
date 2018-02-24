@@ -66,7 +66,7 @@ def download_project(project_url, download_folder_path, unzip=False):
   try:
     r = urllib.request.urlopen(download_url)
     # download zip
-    filepath = os.path.join(download_folder_path, project_url[1:].replace(r'/', '_')) + r'.zip'
+    filepath = os.path.join(download_folder_path, project_url[1:].replace(r'/', '___')) + r'.zip'
     f = open(filepath, 'wb')
     f.write(r.read())
     f.close()
@@ -99,7 +99,7 @@ def is_reduntant_project(project_name):
   """
   global handled_project
   if project_name in handled_project:
-    print(project_name)
+    print('redundant project:', project_name)
     return True
   return False
 
@@ -111,7 +111,7 @@ def is_reduntant_user(user_url):
   """
   global handled_user
   if user_url in handled_user:
-    print(user_url)
+    print('redundant user:', user_url)
     return True
   return False
 
@@ -137,7 +137,7 @@ def handle_stargazer(project_href):
   threadLock.release()
 
 
-def handle_user():
+def handle_user(language, min_stars):
   global threadLock
 
   while (len(user_to_be_handler) > 0):
@@ -169,9 +169,9 @@ def handle_user():
 
           project_type = project.find('div', {'class': 'f6 text-gray mt-2'}).find('span',
                                                                                   {'class': 'mr-3'}).string.strip()
-          project_star = get_star_count(project.find('div', {'class': 'f6 text-gray mt-2'}).find('a', {
-            'class': 'muted-link tooltipped tooltipped-s mr-3'}).text)
-          if project_type != 'Python' or int(project_star) < 5:
+          project_star = get_star_count(project.find('div', {'class': 'f6 text-gray mt-2'}).
+                                        find('a', {'class': 'muted-link mr-3'}).text)
+          if project_type != language or int(project_star) < min_stars:
             continue
 
           download_project(project_href, download_folder_path, unzip=True)
@@ -180,9 +180,9 @@ def handle_user():
           pass
 
 
-def setup_thread(thread_count):
+def setup_thread(thread_count, language, min_stars):
   def threadStart():
-    thread = threading.Thread(target=handle_user)
+    thread = threading.Thread(target=handle_user, args=(language, min_stars))
     thread.start()
 
   threadStart()
@@ -201,10 +201,10 @@ user_to_be_handler = []
 
 handled_project = []
 
-user_to_be_handler.append(r'/dongzhuoyao')
+user_to_be_handler.append(r'/sabiou')
 
 import socket
 
 socket.setdefaulttimeout(30)
 
-setup_thread(20)
+setup_thread(20, language='Java', min_stars=3)
