@@ -20,8 +20,11 @@ def get_page_source(curUrl):
 
   req.add_header('User-Agent',
                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-  page_source = urllib.request.urlopen(req).read()
-  return page_source
+  try:
+    page_source = urllib.request.urlopen(req).read()
+    return page_source
+  except:
+    return None
 
 
 def get_total_page_number(page_source):
@@ -121,6 +124,8 @@ def handle_stargazer(project_href):
 
   url = base_url + project_href + r'/stargazers'
   page_source = get_page_source(url)
+  if page_source is None:
+    return
 
   bsobj = BeautifulSoup(page_source, 'lxml')
   # todo while has next page？？
@@ -149,6 +154,9 @@ def handle_user(language, min_stars):
     threadLock.release()
 
     page_source = get_page_source(cur_url)
+    if page_source is None:
+      time.sleep(3)
+      continue
     total_page_number = get_total_page_number(page_source)
 
     for i in range(total_page_number):
@@ -193,7 +201,7 @@ def setup_thread(thread_count, language, min_stars):
 
 
 base_url = r'https://github.com'
-download_folder_path = r'E:\GithubJavaRepo'
+download_folder_path = r'E:\GithubJavaRepo2'
 threadLock = threading.Lock()
 
 handled_user = []
@@ -207,4 +215,4 @@ import socket
 
 socket.setdefaulttimeout(30)
 
-setup_thread(20, language='Java', min_stars=3)
+setup_thread(10, language='Java', min_stars=3)
