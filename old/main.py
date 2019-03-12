@@ -2,7 +2,7 @@
 
 import urllib.request
 from bs4 import BeautifulSoup
-import download
+from old import download
 import re
 
 def get_page_source(curUrl):
@@ -37,14 +37,14 @@ def get_start(downloaded_urls,url,save_path,deepth):
     for i in range(total_page_number):
         cur_url=reg.sub('p='+str(i+1),url)
         page_source=get_page_source(cur_url)
-        repo_list=download.get_repo_list(page_source)
-        project_urls=download.get_proj_urls(repo_list)
+        repo_list= download.get_repo_list(page_source)
+        project_urls= download.get_proj_urls(repo_list)
         for new_url in project_urls:
             if new_url not in downloaded_urls:
                 downloaded_urls[new_url]='0'
             else:
                 project_urls.remove(new_url)
-        download.download_projects(project_urls,save_path,unzip=False)
+        download.download_projects(project_urls, save_path, unzip=False)
 
     for (k,v) in downloaded_urls.items():
         if downloaded_urls[k] =='0':
