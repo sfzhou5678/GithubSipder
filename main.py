@@ -112,11 +112,12 @@ def process_repo(base_folder, repo, user_name_set, processed_repo_set,
   file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理
 
   download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
-  local_save_path = os.path.join(base_folder, 'user_' + user_id, repo_name + '_' + repo_id)
+  local_save_path = os.path.join('user_' + user_id, repo_name + '_' + repo_id)  # 这个是存储到db的在base_folder之下的路径
+  true_save_path = os.path.join(base_folder, local_save_path)  # 实际运行时base_folder是可变的，所以要分离开来
   if not os.path.exists(local_save_path):
     os.makedirs(local_save_path)
-  download_repo(download_url, local_save_path, unzip=True)
-  clean_repo_files(local_save_path)  ## local_save_path目录里将会有一个名为{repo_name}_{branch}的文件夹, 需要过滤文件并且删除该文件夹
+  download_repo(download_url, true_save_path, unzip=True)
+  clean_repo_files(true_save_path)  ## local_save_path目录里将会有一个名为{repo_name}_{branch}的文件夹, 需要过滤文件并且删除该文件夹
   ## TODO: 2. save repo infos
 
   ## TODO: 3. 获取star了当前repo的所有用户的信息
@@ -135,7 +136,8 @@ if __name__ == '__main__':
   seed_users = ['sfzhou5678']
   user_name_set = set()
   processed_repo_set = set()
-  user_stack = []
+  user_stack = []  # TODO: 处理一下star和repo的交互逻辑
+  repo_stack = []
 
   for user_name in seed_users:
     if user_name not in user_name_set:
