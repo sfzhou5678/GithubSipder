@@ -31,7 +31,17 @@ def process_user(user_name):
 
 
 def process_stargazers(stargazers_url, user_name_set):
-  pass
+  try:
+    users = json.loads(read_url(stargazers_url))
+  except:
+    users = []
+  for user in users:
+    user_id = user['id']
+    user_name = user['login']
+    if user_name not in user_name_set:
+      process_user(user_name)
+      user_name_set.add(user_name)
+      user_stack.append(user_name)
 
 
 def transform_datetime(datetime):
@@ -94,9 +104,6 @@ def process_repo(base_folder, repo, user_name_set, processed_repo_set,
   user_name = repo['owner']['login']
 
   repo_name = repo['name']
-  # FIXME:
-  if repo_name.find('CCL') >= 0:
-    return
   repo_url = repo['html_url']
   default_branch = repo['default_branch']
   description = repo['description']
@@ -114,10 +121,10 @@ def process_repo(base_folder, repo, user_name_set, processed_repo_set,
   download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
   local_save_path = os.path.join('user_' + user_id, repo_name + '_' + repo_id)  # 这个是存储到db的在base_folder之下的路径
   true_save_path = os.path.join(base_folder, local_save_path)  # 实际运行时base_folder是可变的，所以要分离开来
-  if not os.path.exists(local_save_path):
-    os.makedirs(local_save_path)
-  download_repo(download_url, true_save_path, unzip=True)
-  clean_repo_files(true_save_path)  ## local_save_path目录里将会有一个名为{repo_name}_{branch}的文件夹, 需要过滤文件并且删除该文件夹
+  if not os.path.exists(true_save_path):
+    os.makedirs(true_save_path)
+  # download_repo(download_url, true_save_path, unzip=True)
+  # clean_repo_files(true_save_path)  ## local_save_path目录里将会有一个名为{repo_name}_{branch}的文件夹, 需要过滤文件并且删除该文件夹
   ## TODO: 2. save repo infos
 
   ## TODO: 3. 获取star了当前repo的所有用户的信息
@@ -133,7 +140,12 @@ if __name__ == '__main__':
   # TODO: 加入db
   # TODO: 加入resotre from cache
   base_folder = r'D:\DeeplearningData\GithubCode\Java'
-  seed_users = ['sfzhou5678']
+  if not os.path.exists(base_folder):
+    os.makedirs(base_folder)
+  # seed_users = ['gaopu', 'sfzhou5678']
+  seed_users = ['gaopu']
+
+  ## TODO: 各种set, stack封装成类
   user_name_set = set()
   processed_repo_set = set()
   user_stack = []  # TODO: 处理一下star和repo的交互逻辑
@@ -147,6 +159,7 @@ if __name__ == '__main__':
       user_stack.append(user_name)
 
   while len(user_stack):
+    print(len(user_stack))
     user_name = user_stack.pop()
     repos = get_repos(user_name)
     for repo in repos:
