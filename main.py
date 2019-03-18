@@ -5,24 +5,29 @@ import zipfile
 import urllib.request
 import socket
 import random
+import threading
 
-agents = [
-  'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0',
-  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0',
-  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36 LBBROWSER'
-  'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-  'Opera/9.25 (Windows NT 5.1; U; en)',
-  'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-  'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-  'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
-  'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9',
-  "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Ubuntu/11.04 Chromium/16.0.912.77 Chrome/16.0.912.77 Safari/535.7",
-  "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 ",
-]
+# agents = [
+#   'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0',
+#   'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
+#   'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0',
+#   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36 LBBROWSER'
+#   'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
+#   'Opera/9.25 (Windows NT 5.1; U; en)',
+#   'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
+#   'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+#   'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
+#   'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9',
+#   "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Ubuntu/11.04 Chromium/16.0.912.77 Chrome/16.0.912.77 Safari/535.7",
+#   "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:10.0) Gecko/20100101 Firefox/10.0 ",
+#   "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0"
+# ]
+with open('data/user_agents.txt') as f:
+  agents = [line.strip() for line in f.readlines()]
 
 
 def read_url(url):
+  time.sleep(0.5)  # 每次都延缓一下
   req = urllib.request.Request(url)
   req.add_header('User-Agent', agents[random.randint(0, len(agents) - 1)])
 
@@ -41,14 +46,14 @@ def get_repos(user_name, type):
   :return: 
   """
   url = 'https://api.github.com/users/%s/%s' % (user_name, type)
-  # repos = json.loads(read_url(url))
-  try:
-    repos = json.loads(read_url(url))
-  except:
-    # TODO: 记录错误记录
-    repos = []
-    print('Get repos error_%s_%s' % (user_name, type))
-    time.sleep(3)
+  repos = json.loads(read_url(url))
+  # try:
+  #   repos = json.loads(read_url(url))
+  # except:
+  #   # TODO: 记录错误记录
+  #   repos = []
+  #   print('Get repos error_%s_%s' % (user_name, type))
+  #   time.sleep(3)
   return repos
 
 
@@ -66,13 +71,17 @@ def process_stargazers(stargazers_url, user_name_set):
     users = json.loads(read_url(stargazers_url))
   except:
     users = []
-  for user in users:
-    user_id = user['id']
-    user_name = user['login']
-    if user_name not in user_name_set:
-      process_user(user_name)
-      user_name_set.add(user_name)
-      user_stack.append(user_name)
+  if len(users) > 0:
+    global thread_lock
+    thread_lock.acquire()
+    for user in users:
+      user_id = user['id']
+      user_name = user['login']
+      if user_name not in user_name_set:
+        process_user(user_name)
+        user_name_set.add(user_name)
+        user_stack.append(user_name)
+    thread_lock.release()
 
 
 def transform_datetime(datetime):
@@ -120,16 +129,23 @@ def process_repo(base_folder, repo, user_name_set, processed_repo_set,
   :param repo:
   :return:
   """
+  global thread_lock
+  thread_lock.acquire()
   repo_id = str(repo['id'])
   if repo_id in processed_repo_set:
+    thread_lock.release()
     return
   if repo['fork']:
     processed_repo_set.add(repo_id)
+    thread_lock.release()
     return
   language = repo['language']
   if target_language and language != target_language:
     processed_repo_set.add(repo_id)
+    thread_lock.release()
     return
+  processed_repo_set.add(repo_id)  # TODO: 改成in_processing_repo_set?
+  thread_lock.release()
 
   user_id = str(repo['owner']['id'])
   user_name = repo['owner']['login']
@@ -166,6 +182,39 @@ def process_repo(base_folder, repo, user_name_set, processed_repo_set,
   processed_repo_set.add(repo_id)
 
 
+def user_processor():
+  global thread_lock
+
+  while len(user_stack):
+    """
+    每次拿出一个user, 做的事情有:
+    1. 获取这个user所有star了的项目star_repos
+    2. 获取当前用户自己的仓库repos
+    3. repos+=star_repos, 然后process repo(在这里下载当前repo(到owner的id目录), 同时将该项目的stargazers都加入user_stack)
+    """
+
+    thread_lock.acquire()
+    print(len(user_stack))
+    user_name = user_stack.pop()
+    thread_lock.release()
+    star_repos = get_repos(user_name, 'starred')
+    repos = get_repos(user_name, 'repos')
+    repos += star_repos
+    for repo in repos:
+      process_repo(base_folder, repo, user_name_set, processed_repo_set, target_language='Java')
+
+
+def setup_thread(thread_count):
+  thread = threading.Thread(target=user_processor)
+  thread.start()
+  time.sleep(60)  # 这是为了更新待处理的user池, 避免threads提前退出
+
+  for i in range(thread_count - 1):
+    thread = threading.Thread(target=user_processor)
+    thread.start()
+    time.sleep(1)
+
+
 if __name__ == '__main__':
   socket.setdefaulttimeout(10)
 
@@ -188,17 +237,5 @@ if __name__ == '__main__':
       user_name_set.add(user_name)
       user_stack.append(user_name)
 
-  while len(user_stack):
-    """
-    每次拿出一个user, 做的事情有:
-    1. 获取这个user所有star了的项目star_repos
-    2. 获取当前用户自己的仓库repos
-    3. repos+=star_repos, 然后process repo(在这里下载当前repo(到owner的id目录), 同时将该项目的stargazers都加入user_stack)
-    """
-    print(len(user_stack))
-    user_name = user_stack.pop()
-    star_repos = get_repos(user_name, 'starred')
-    repos = get_repos(user_name, 'repos')
-    repos += star_repos
-    for repo in repos:
-      process_repo(base_folder, repo, user_name_set, processed_repo_set, target_language='Java')
+  thread_lock = threading.Lock()
+  setup_thread(15)

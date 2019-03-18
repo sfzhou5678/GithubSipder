@@ -117,7 +117,7 @@ def is_reduntant_user(user_url):
 
 
 def handle_stargazer(project_href):
-  global threadLock
+  global thread_lock
 
   url = base_url + project_href + r'/stargazers'
   page_source = get_page_source(url)
@@ -138,7 +138,7 @@ def handle_stargazer(project_href):
 
 
 def handle_user():
-  global threadLock
+  global thread_lock
 
   while (len(user_to_be_handler) > 0):
     threadLock.acquire()
@@ -194,7 +194,7 @@ def setup_thread(thread_count):
 
 base_url = r'https://github.com'
 download_folder_path = r'C:\Users\hasee\Desktop\github-python-download'
-threadLock = threading.Lock()
+thread_lock = threading.Lock()
 
 handled_user = []
 user_to_be_handler = []
