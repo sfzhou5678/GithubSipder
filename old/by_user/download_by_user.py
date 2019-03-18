@@ -20,11 +20,8 @@ def get_page_source(curUrl):
 
   req.add_header('User-Agent',
                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
-  try:
-    page_source = urllib.request.urlopen(req).read()
-    return page_source
-  except:
-    return None
+  page_source = urllib.request.urlopen(req).read()
+  return page_source
 
 
 def get_total_page_number(page_source):
@@ -69,7 +66,7 @@ def download_project(project_url, download_folder_path, unzip=False):
   try:
     r = urllib.request.urlopen(download_url)
     # download zip
-    filepath = os.path.join(download_folder_path, project_url[1:].replace(r'/', '___')) + r'.zip'
+    filepath = os.path.join(download_folder_path, project_url[1:].replace(r'/', '_')) + r'.zip'
     f = open(filepath, 'wb')
     f.write(r.read())
     f.close()
@@ -102,7 +99,7 @@ def is_reduntant_project(project_name):
   """
   global handled_project
   if project_name in handled_project:
-    print('redundant project:', project_name)
+    print(project_name)
     return True
   return False
 
@@ -114,7 +111,7 @@ def is_reduntant_user(user_url):
   """
   global handled_user
   if user_url in handled_user:
-    print('redundant user:', user_url)
+    print(user_url)
     return True
   return False
 
@@ -124,8 +121,6 @@ def handle_stargazer(project_href):
 
   url = base_url + project_href + r'/stargazers'
   page_source = get_page_source(url)
-  if page_source is None:
-    return
 
   bsobj = BeautifulSoup(page_source, 'lxml')
   # todo while has next page？？
@@ -142,7 +137,7 @@ def handle_stargazer(project_href):
   threadLock.release()
 
 
-def handle_user(language, min_stars):
+def handle_user():
   global threadLock
 
   while (len(user_to_be_handler) > 0):
@@ -154,9 +149,6 @@ def handle_user(language, min_stars):
     threadLock.release()
 
     page_source = get_page_source(cur_url)
-    if page_source is None:
-      time.sleep(3)
-      continue
     total_page_number = get_total_page_number(page_source)
 
     for i in range(total_page_number):
@@ -177,20 +169,20 @@ def handle_user(language, min_stars):
 
           project_type = project.find('div', {'class': 'f6 text-gray mt-2'}).find('span',
                                                                                   {'class': 'mr-3'}).string.strip()
-          project_star = get_star_count(project.find('div', {'class': 'f6 text-gray mt-2'}).
-                                        find('a', {'class': 'muted-link mr-3'}).text)
-          if project_type != language or int(project_star) < min_stars:
+          project_star = get_star_count(project.find('div', {'class': 'f6 text-gray mt-2'}).find('a', {
+            'class': 'muted-link tooltipped tooltipped-s mr-3'}).text)
+          if project_type != 'Python' or int(project_star) < 5:
             continue
 
-          download_project(project_href, download_folder_path, unzip=True)
+          download_project(project_href, download_folder_path, unzip=False)
           handle_stargazer(project_href)
         except:
           pass
 
 
-def setup_thread(thread_count, language, min_stars):
+def setup_thread(thread_count):
   def threadStart():
-    thread = threading.Thread(target=handle_user, args=(language, min_stars))
+    thread = threading.Thread(target=handle_user)
     thread.start()
 
   threadStart()
@@ -201,7 +193,7 @@ def setup_thread(thread_count, language, min_stars):
 
 
 base_url = r'https://github.com'
-download_folder_path = r'E:\GithubJavaRepo2'
+download_folder_path = r'C:\Users\hasee\Desktop\github-python-download'
 threadLock = threading.Lock()
 
 handled_user = []
@@ -209,10 +201,10 @@ user_to_be_handler = []
 
 handled_project = []
 
-user_to_be_handler.append(r'/sabiou')
+user_to_be_handler.append(r'/dongzhuoyao')
 
 import socket
 
 socket.setdefaulttimeout(30)
 
-setup_thread(10, language='Java', min_stars=3)
+setup_thread(15)
