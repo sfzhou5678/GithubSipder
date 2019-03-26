@@ -13,6 +13,10 @@ import os
 import zipfile
 import threading
 import time
+import random
+
+with open('../../data/user_agents.txt') as f:
+  agents = [line.strip() for line in f.readlines()]
 
 
 def get_page_source(curUrl):
@@ -20,6 +24,7 @@ def get_page_source(curUrl):
 
   req.add_header('User-Agent',
                  'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36')
+  # req.add_header('User-Agent', agents[random.randint(0, len(agents) - 1)])
   page_source = urllib.request.urlopen(req).read()
   return page_source
 
@@ -65,24 +70,18 @@ def download_project(project_url, download_folder_path, unzip=False):
   download_url = baseurl + project_url + r'/zip/master'
   try:
     r = urllib.request.urlopen(download_url)
-    # download zip
     filepath = os.path.join(download_folder_path, project_url[1:].replace(r'/', '_')) + r'.zip'
     f = open(filepath, 'wb')
     f.write(r.read())
     f.close()
-    # print('download completed')
 
     if (unzip):
-      # unzip
       zipf = zipfile.ZipFile(filepath, 'r')
       for file in zipf.namelist():
         zipf.extract(file, filepath.replace(r'.zip', ''))
       zipf.close()
-      # print('unzip conpleted')
 
-      # delete zip
       os.remove(filepath)
-      # print(filepath+"  completed")
   except:
     print(project_url + ' error')
 
@@ -169,13 +168,13 @@ def handle_user():
 
           project_type = project.find('div', {'class': 'f6 text-gray mt-2'}).find('span',
                                                                                   {'class': 'mr-3'}).string.strip()
-          project_star = get_star_count(project.find('div', {'class': 'f6 text-gray mt-2'}).find('a', {
-            'class': 'muted-link tooltipped tooltipped-s mr-3'}).text)
+          project_star = get_star_count(
+            project.find('div', {'class': 'f6 text-gray mt-2'}).find('a', {'class': 'muted-link mr-3'}).text)
           if project_type != 'Python' or int(project_star) < 5:
             continue
 
-          download_project(project_href, download_folder_path, unzip=False)
           handle_stargazer(project_href)
+          download_project(project_href, download_folder_path, unzip=False)
         except:
           pass
 
@@ -193,15 +192,16 @@ def setup_thread(thread_count):
 
 
 base_url = r'https://github.com'
-download_folder_path = r'C:\Users\hasee\Desktop\github-python-download'
-thread_lock = threading.Lock()
+download_folder_path = r'C:\Users\hasee\Desktop\Github-test'
+threadLock = threading.Lock()
 
 handled_user = []
 user_to_be_handler = []
 
 handled_project = []
 
-user_to_be_handler.append(r'/dongzhuoyao')
+# user_to_be_handler.append(r'/dongzhuoyao')
+user_to_be_handler.append(r'/gaopu')
 
 import socket
 
