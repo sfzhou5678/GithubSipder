@@ -16,9 +16,9 @@ if __name__ == '__main__':
   db_config = 'data/db_info.json'
   seed_users = ['gaopu', 'sfzhou5678']
   target_languages = ['Java']
-  threads = 0
+  threads = 15
 
-  unzip = False
+  unzip = True
   clean_repo = False
 
   use_proxy = False
@@ -53,4 +53,4 @@ if __name__ == '__main__':
                                db, http_manager, file_manager, info_processor,
                                threads=threads)
   scheduler.seed_warmup()
-  scheduler.start_processor()
+  scheduler.start()

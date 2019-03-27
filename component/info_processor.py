@@ -54,6 +54,8 @@ class HtmlInfoProcessor(InfoProcessor):
     url = 'https://github.com/%s?tab=%s' % (user_name, type)
     ts_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     repo_infos = []
+    cnt = 0
+    page_threshold = 2
     while url:
       page_source = self.http_manager.read_url(url)
       bsobj = BeautifulSoup(page_source, 'lxml')
@@ -79,7 +81,7 @@ class HtmlInfoProcessor(InfoProcessor):
           repo_language = ''
 
         try:
-          description = project.find('p', {'itemprop': "description"}).text
+          description = project.find('p', {'itemprop': "description"}).text.strip()
         except:
           description = ''
         star_cnt, fork_cnt = 0, 0
@@ -111,6 +113,9 @@ class HtmlInfoProcessor(InfoProcessor):
                      'stargazers_url': repo_url + '/stargazers'
                      }
         repo_infos.append(repo_info)
+      cnt += 1
+      if cnt >= page_threshold:
+        break
       url = self.get_next_page_url(bsobj)
     return repo_infos
 

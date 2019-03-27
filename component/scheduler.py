@@ -53,6 +53,19 @@ class CrawlerScheduler(object):
         self.user_stack.append(user_name)
     self.db.commit()
 
+  def start(self):
+    if self.threads > 0:
+      thread = threading.Thread(target=self.start_processor)
+      thread.start()
+      time.sleep(60)  # 这是为了更新待处理的user池, 避免threads提前退出
+
+      for i in range(self.threads - 1):
+        thread = threading.Thread(target=self.start_processor)
+        thread.start()
+        time.sleep(1)
+    else:
+      self.start_processor()
+
   def start_processor(self):
     """
     实际运行程序的入口，多线程也调用这个函数
@@ -78,12 +91,14 @@ class CrawlerScheduler(object):
         self.patience = 0
 
       user_name = self.user_stack.pop()
+      print('cur user:', user_name)
       self.thread_lock.release()
+      time.sleep(random.randint(0, 60))  # 减少开太多用户的可能性，希望能优先将某个用户的repo挖掘完
 
       starred_repo_infos = self.info_processor.get_repo_infos(user_name, 'starred')
       repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
-      starred_repo_infos.extend(repo_infos)
-      for repo_info in starred_repo_infos:
+      repo_infos.extend(starred_repo_infos)  # 优先抓该用户自己的repos
+      for repo_info in repo_infos:
         self.process_repo(repo_info)
 
   def process_repo(self, repo_info):
@@ -118,10 +133,11 @@ class CrawlerScheduler(object):
 
     # file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理
     ## 获取star了当前repo的所有用户的信息
-    stargazers_url = repo_info['stargazers_url']
-    stargazers = self.info_processor.get_stargazers(stargazers_url)
-    if len(stargazers) > 0:
-      self.process_stargazers(stargazers)
+    if len(self.user_stack) < 100:  # 控制内存和待处理的用户数量
+      stargazers_url = repo_info['stargazers_url']
+      stargazers = self.info_processor.get_stargazers(stargazers_url)
+      if len(stargazers) > 0:
+        self.process_stargazers(stargazers)
 
     download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
     relative_save_path = os.path.join('%s' % user_name,
