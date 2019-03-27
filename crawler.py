@@ -23,10 +23,14 @@ if __name__ == '__main__':
   use_proxy = False
   default_timeout = 10
 
+  db_config = 'data/db_info.json'
+  db_info = json.load(open(db_config))
+  print(db_info)
+
   agents = [
     'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36']
 
-  db = DBManager()
+  db = DBManager(db_info)
   http_manager = HttpManager(agents, use_proxy=use_proxy, default_timeout=default_timeout)
   file_manager = LocalFileManager(base_folder, http_manager, unzip=unzip, clean_repo=clean_repo)
   info_processor = HtmlInfoProcessor(http_manager)

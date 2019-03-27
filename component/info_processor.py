@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import re
-import time
+from datetime import datetime
 
 
 class InfoProcessor(object):
@@ -103,7 +103,7 @@ class HtmlInfoProcessor(InfoProcessor):
                      'description': description,
                      'create_time': None,
                      'update_time': None,
-                     'record_time': time.strptime(time.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S"),
+                     'record_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
 
                      'star_cnt': star_cnt,
                      'form_cnt': fork_cnt,

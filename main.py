@@ -8,6 +8,7 @@ import random
 import threading
 from urllib.error import URLError, HTTPError
 from bs4 import BeautifulSoup
+from datetime import datetime
 import requests
 
 # agents = [
@@ -138,14 +139,14 @@ def process_stargazers(stargazers_url, user_name_set):
     thread_lock.release()
 
 
-def transform_datetime(datetime):
+def transform_datetime(ts):
   """
-  输入的datetime形如"2018-02-12T09:22:02Z"
+  输入的ts形如"2018-02-12T09:22:02Z"
   :param datetime:
   :return:
   """
-  datetime = time.strptime(datetime, "%Y-%m-%dT%H:%M:%SZ")
-  return datetime
+  ts = datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
+  return ts
 
 
 def download_repo(download_url, local_save_path, unzip=True):
