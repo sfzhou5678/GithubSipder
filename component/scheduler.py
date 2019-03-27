@@ -67,9 +67,8 @@ class CrawlerScheduler(object):
       user_name = self.user_stack.pop()
       self.thread_lock.release()
 
-      ## TODO: 下面的get_repos要改成非api版本的
       starred_repo_infos = self.info_processor.get_repo_infos(user_name, 'starred')
-      repo_infos = self.info_processor.get_repo_infos(user_name, 'repo_infos')
+      repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
       repo_infos += starred_repo_infos
       for repo_info in repo_infos:
         self.process_repo(repo_info)

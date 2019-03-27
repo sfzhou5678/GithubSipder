@@ -1,6 +1,6 @@
 CREATE TABLE public."user"
 (
-  user_id varchar DEFAULT 128 NOT NULL,
+  user_id varchar DEFAULT 128 DEFAULT "",
   user_name varchar DEFAULT 128 NOT NULL,
   user_url varchar DEFAULT 258 NOT NULL
 );
@@ -9,8 +9,8 @@ CREATE UNIQUE INDEX user_user_id_uindex ON public."user" (user_id);
 
 CREATE TABLE public.repo
 (
-  user_id varchar DEFAULT 128 NOT NULL,
-  repo_id varchar DEFAULT 128 NOT NULL,
+  user_name varchar DEFAULT 128 NOT NULL,
+  repo_id varchar DEFAULT 128 DEFAULT "",
   repo_name varchar DEFAULT 128 NOT NULL,
   repo_url varchar DEFAULT 256 NOT NULL,
   description varchar DEFAULT 1024,

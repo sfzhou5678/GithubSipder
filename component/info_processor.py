@@ -1,3 +1,7 @@
+from bs4 import BeautifulSoup
+import re
+
+
 class InfoProcessor(object):
   def __init__(self):
     pass
@@ -7,7 +11,7 @@ class InfoProcessor(object):
 
   def get_repo_infos(self, user_name, type):
     """
-    获取跟指定的user相关的repo
+    获取跟指定的user相关的repo, 可能是他所star的，也可能是她自己所拥有的repos
     :param user_name:
     :param type: ['starred', 'repos']
     :return:
@@ -19,14 +23,98 @@ class InfoProcessor(object):
 
 
 class HtmlInfoProcessor(InfoProcessor):
-  def __init__(self):
+  def __init__(self, http_manager):
     super().__init__()
+    self.type_map = {'starred': 'stars',
+                     'repos': 'repositories'}
+    self.http_manager = http_manager
 
   def get_user_info(self, user_name):
-    super().get_user_info(user_name)
+    """
+    由于无法直接从html上获取user_id, 所以先记录为空值，等待后序调用api获取id
+    :param user_name:
+    :return:
+    """
+    user_info = {
+      'user_id': '',
+      'user_name': user_name,
+      'user_url': 'https://github.com/%s' % user_name}
+    return user_info
 
   def get_repo_infos(self, user_name, type):
-    super().get_repo_infos(user_name, type)
+    """
+    获取跟指定的user相关的repo, 可能是他所star的，也可能是她自己所拥有的repos
+    形如: https://github.com/sfzhou5678?tab=stars
+    :param user_name:
+    :param type: ['stars', 'repositories']
+    :return:
+    """
+    type = self.type_map[type]
+    url = 'https://github.com/%s?tab=%s' % (user_name, type)
+
+    repo_infos = []
+    while url:
+      page_source = self.http_manager.read_url(url)
+      bsobj = BeautifulSoup(page_source, 'lxml')
+
+      if type == self.type_map['starred']:
+        project_list = bsobj.find_all('div', {'class': 'col-12 d-block width-full py-4 border-bottom'})
+      else:
+        project_list = bsobj.find_all('div', {'class': 'col-12 d-flex width-full py-4 border-bottom public source'})
+      for j in range(len(project_list)):
+        project = project_list[j]
+
+        repo_short_url = project.find(
+          'div', {'class': 'd-inline-block mb-1'}).find('a')['href'][1:]  # 得到形如'mJackie/RecSys'
+        owner_name, repo_name = repo_short_url.split('/')
+        repo_url = 'https://github.com/%s' % repo_short_url
+
+        try:
+          repo_language = project.find('div', {'class': 'f6 text-gray mt-2'}).find('span',
+                                                                                   {'class': 'mr-3'}).string.strip()
+        except:
+          repo_language = ''
+
+        star_cnt, fork_cnt = 0, 0
+        cnt_info = project.find('div', {'class': 'f6 text-gray mt-2'}).find_all('a', {'class': 'muted-link mr-3'})
+        for info in cnt_info:
+          # 如果star=0, 则页面上不会有相应的数字显示，这个for可以避免这种情况引起的bug
+          cnt = self.get_count(info.text)
+          href = info['href']
+          cnt_type = href.split('/')[-1]
+          if cnt_type  == 'stargazers':
+            star_cnt = cnt
+          else:
+            fork_cnt = cnt
+
+        repo_info = {'user_name': owner_name,
+                     'repo_id': '',
+                     'repo_name': repo_name,
+                     'repo_url': repo_url,
+                     'language': repo_language,
+                     'default_branch': None,
+                     'create_time': None,
+                     'update_time': None,
+                     'star_cnt': star_cnt,
+                     'form_cnt': fork_cnt}
+        repo_infos.append(repo_info)
+      url = self.get_next_page_url(bsobj)
+    return repo_infos
+
+  def get_count(self, string):
+    nums = re.findall('[0-9]+', string)
+    return nums[-1]
+
+  def get_next_page_url(self, page_source):
+    paginate_container = page_source.find('div', {'class': 'paginate-container'})
+    next_btn = paginate_container.find_all('a', {'class': 'btn btn-outline BtnGroup-item'})[-1]
+
+    if next_btn.text == 'Next':
+      url = next_btn['href']
+    else:
+      url = None
+
+    return url
 
   def get_stargazers(self, stargazers_url):
     super().get_stargazers(stargazers_url)
@@ -56,6 +144,7 @@ class APIInfoProcessor(InfoProcessor):
 
   def get_repo_infos(self, user_name, type):
     """
+    获取跟指定的user相关的repo, 可能是他所star的，也可能是她自己所拥有的repos
     type=['repos','starred']
     1. 获取某个user的repos信息: https://api.github.com/users/{user_name}/repos
     2. 获取某用户所有star了的repo的信息(和2相反):https://api.github.com/users/{user_name}/starred

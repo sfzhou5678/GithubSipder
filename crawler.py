@@ -1,4 +1,4 @@
-from component import CrawlerScheduler, HttpManager, DBManager, LocalFileManager
+from component import CrawlerScheduler, HttpManager, DBManager, LocalFileManager, HtmlInfoProcessor, APIInfoProcessor
 import os
 import json
 import time
@@ -25,7 +25,9 @@ if __name__ == '__main__':
   db = DBManager()
   http_manager = HttpManager(agents, use_proxy=use_proxy, default_timeout=default_timeout)
   file_manager = LocalFileManager(base_folder, http_manager)
-  info_processor=None
+  info_processor = HtmlInfoProcessor(http_manager)
+  # info_processor=APIInfoProcessor(http_manager)
+
   scheduler = CrawlerScheduler(target_languages, seed_users,
                                db, http_manager, file_manager, info_processor,
                                threads=threads)
