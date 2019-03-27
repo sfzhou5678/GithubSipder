@@ -54,7 +54,7 @@ class HtmlInfoProcessor(InfoProcessor):
     url = 'https://github.com/%s?tab=%s' % (user_name, type)
     ts_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     repo_infos = []
-    cnt = 0
+    page_cnt = 0
     page_threshold = 2
     while url:
       page_source = self.http_manager.read_url(url)
@@ -113,8 +113,8 @@ class HtmlInfoProcessor(InfoProcessor):
                      'stargazers_url': repo_url + '/stargazers'
                      }
         repo_infos.append(repo_info)
-      cnt += 1
-      if cnt >= page_threshold:
+      page_cnt += 1
+      if page_cnt >= page_threshold:
         break
       url = self.get_next_page_url(bsobj)
     return repo_infos
