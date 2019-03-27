@@ -34,9 +34,11 @@ try:
   time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
   print(time_stamp)
   cur.execute(
-    'INSERT INTO repo(user_name, repo_id, repo_name, repo_url, description, default_branch, language, local_save_path,record_time) '
-    'VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-    ('zsf5678', '', 'test_repo1', 'repo_url', '', 'master', 'Java', 'test_repo-master', time_stamp))
+    'INSERT INTO repo(user_name, repo_id, repo_name, repo_url, description, default_branch, language, relative_save_path,'
+    'create_time,update_time,record_time,'
+    'star_cnt,fork_cnt) '
+    'VALUES( %s, %s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s,%s)',
+    ('zsf5678', '', 'test_repo1', 'repo_url', '', 'master', 'Java', 'test_repo-master', time_stamp, None, time_stamp,1,132))
   conn.commit()
 except Exception as e:
   print(e)

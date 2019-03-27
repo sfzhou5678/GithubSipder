@@ -52,7 +52,7 @@ class HtmlInfoProcessor(InfoProcessor):
     """
     type = self.type_map[type]
     url = 'https://github.com/%s?tab=%s' % (user_name, type)
-
+    ts_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     repo_infos = []
     while url:
       page_source = self.http_manager.read_url(url)
@@ -103,10 +103,10 @@ class HtmlInfoProcessor(InfoProcessor):
                      'description': description,
                      'create_time': None,
                      'update_time': None,
-                     'record_time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                     'record_time': ts_now,
 
                      'star_cnt': star_cnt,
-                     'form_cnt': fork_cnt,
+                     'fork_cnt': fork_cnt,
 
                      'stargazers_url': repo_url + '/stargazers'
                      }

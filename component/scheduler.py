@@ -51,6 +51,7 @@ class CrawlerScheduler(object):
         self.db.record_user(user_info)
         self.user_name_set.add(user_name)
         self.user_stack.append(user_name)
+    self.db.commit()
 
   def start_processor(self):
     """
@@ -76,7 +77,6 @@ class CrawlerScheduler(object):
       else:
         self.patience = 0
 
-      print(len(self.user_stack))
       user_name = self.user_stack.pop()
       self.thread_lock.release()
 
@@ -84,7 +84,6 @@ class CrawlerScheduler(object):
       repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
       starred_repo_infos.extend(repo_infos)
       for repo_info in starred_repo_infos:
-        print(repo_info['repo_name'])
         self.process_repo(repo_info)
 
   def process_repo(self, repo_info):
@@ -112,11 +111,12 @@ class CrawlerScheduler(object):
       self.thread_lock.release()
       return
     self.processed_repo_set.add((user_name, repo_name))
+
     self.thread_lock.release()
 
     default_branch = repo_info['default_branch']
 
-    file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理
+    # file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理
     ## 获取star了当前repo的所有用户的信息
     stargazers_url = repo_info['stargazers_url']
     stargazers = self.info_processor.get_stargazers(stargazers_url)
@@ -130,8 +130,9 @@ class CrawlerScheduler(object):
     self.file_manager.download(download_url, user_name,
                                repo_name, default_branch)
 
-    ## TODO: 2. save repo infos
+    # 不确定并发会不会带来什么问题
     self.db.record_repo(repo_info)
+    self.db.commit()
 
   def process_stargazers(self, stargazers):
     self.thread_lock.acquire()
@@ -139,8 +140,8 @@ class CrawlerScheduler(object):
     for user_info in stargazers:
       user_name = user_info['user_name']
       if user_name not in self.user_name_set:
-        # user_info = self.info_processor.get_user_info(user_name)
         self.db.record_user(user_info)
         self.user_name_set.add(user_name)
         self.user_stack.append(user_name)
+    self.db.commit()
     self.thread_lock.release()

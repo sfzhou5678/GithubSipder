@@ -17,7 +17,7 @@ CREATE TABLE public.repo
   description     varchar DEFAULT 1024,
   default_branch  varchar DEFAULT 128,
   language        varchar DEFAULT 32  NOT NULL,
-  local_save_path varchar DEFAULT 256 NOT NULL,
+  relative_save_path varchar DEFAULT 256 NOT NULL,
   create_time     timestamp,
   update_time     timestamp,
   record_time     timestamp,
