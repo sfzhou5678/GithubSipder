@@ -62,8 +62,8 @@
       <ObjectId>2200</ObjectId>
       <Comment>standard public schema</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionTimestamp>2019-03-12.21:02:16.521</IntrospectionTimestamp>
-      <IntrospectionStateNumber>697</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2019-03-27.16:35:52.408</IntrospectionTimestamp>
+      <IntrospectionStateNumber>766</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -110,20 +110,20 @@
       <Type>index</Type>
     </access-method>
     <table id="19" parent="12" name="repo">
-      <ObjectId>16702</ObjectId>
+      <ObjectId>16823</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
     </table>
     <table id="20" parent="12" name="user">
-      <ObjectId>16692</ObjectId>
+      <ObjectId>16812</ObjectId>
       <Owner>postgres</Owner>
-      <StateNumber>693</StateNumber>
+      <StateNumber>765</StateNumber>
     </table>
-    <column id="21" parent="19" name="user_id">
+    <column id="21" parent="19" name="user_name">
       <Position>1</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
@@ -131,7 +131,7 @@
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
@@ -139,7 +139,7 @@
       <Position>3</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
@@ -147,21 +147,21 @@
       <Position>4</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>256</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
     <column id="25" parent="19" name="description">
       <Position>5</Position>
       <DataType>varchar|0s</DataType>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>1024</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
     <column id="26" parent="19" name="default_branch">
       <Position>6</Position>
       <DataType>varchar|0s</DataType>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
@@ -169,103 +169,118 @@
       <Position>7</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>32</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <column id="28" parent="19" name="local_save_path">
+    <column id="28" parent="19" name="relative_save_path">
       <Position>8</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>256</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
     <column id="29" parent="19" name="create_time">
       <Position>9</Position>
-      <DataType>time|0s</DataType>
-      <StateNumber>695</StateNumber>
-      <TypeId>1083</TypeId>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>766</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
     <column id="30" parent="19" name="update_time">
       <Position>10</Position>
-      <DataType>time|0s</DataType>
-      <StateNumber>695</StateNumber>
-      <TypeId>1083</TypeId>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>766</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
-    <column id="31" parent="19" name="star_cnt">
+    <column id="31" parent="19" name="record_time">
       <Position>11</Position>
-      <DataType>integer|0s</DataType>
-      <StateNumber>695</StateNumber>
-      <DefaultExpression>0</DefaultExpression>
-      <TypeId>23</TypeId>
+      <DataType>timestamp|0s</DataType>
+      <StateNumber>766</StateNumber>
+      <TypeId>1114</TypeId>
     </column>
-    <column id="32" parent="19" name="fork_cnt">
+    <column id="32" parent="19" name="star_cnt">
       <Position>12</Position>
       <DataType>integer|0s</DataType>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>0</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="33" parent="19" name="file_cnt">
+    <column id="33" parent="19" name="fork_cnt">
       <Position>13</Position>
       <DataType>integer|0s</DataType>
-      <StateNumber>695</StateNumber>
-      <DefaultExpression>&apos;-1&apos;::integer</DefaultExpression>
+      <StateNumber>766</StateNumber>
+      <DefaultExpression>0</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="34" parent="19" name="token_cnt">
+    <column id="34" parent="19" name="file_cnt">
       <Position>14</Position>
       <DataType>integer|0s</DataType>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>&apos;-1&apos;::integer</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <column id="35" parent="19" name="snippet_cnt">
+    <column id="35" parent="19" name="token_cnt">
       <Position>15</Position>
       <DataType>integer|0s</DataType>
-      <StateNumber>695</StateNumber>
+      <StateNumber>766</StateNumber>
       <DefaultExpression>&apos;-1&apos;::integer</DefaultExpression>
       <TypeId>23</TypeId>
     </column>
-    <index id="36" parent="19" name="repo_user_id_uindex">
-      <ObjectId>16721</ObjectId>
-      <ColNames>user_id</ColNames>
+    <column id="36" parent="19" name="snippet_cnt">
+      <Position>16</Position>
+      <DataType>integer|0s</DataType>
+      <StateNumber>766</StateNumber>
+      <DefaultExpression>&apos;-1&apos;::integer</DefaultExpression>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="37" parent="19" name="repo_pkey">
+      <ObjectId>16842</ObjectId>
+      <ColNames>user_name
+repo_name</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="37" parent="19" name="repo_repo_id_uindex">
-      <ObjectId>16722</ObjectId>
-      <ColNames>repo_id</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <column id="38" parent="20" name="user_id">
+    <key id="38" parent="19" name="repo_pkey">
+      <ObjectId>16843</ObjectId>
+      <ColNames>user_name
+repo_name</ColNames>
+      <UnderlyingIndexName>repo_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="39" parent="20" name="user_id">
       <Position>1</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>693</StateNumber>
+      <StateNumber>765</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <column id="39" parent="20" name="user_name">
+    <column id="40" parent="20" name="user_name">
       <Position>2</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>693</StateNumber>
+      <StateNumber>765</StateNumber>
       <DefaultExpression>128</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <column id="40" parent="20" name="user_url">
+    <column id="41" parent="20" name="user_url">
       <Position>3</Position>
       <DataType>varchar|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>693</StateNumber>
+      <StateNumber>765</StateNumber>
       <DefaultExpression>258</DefaultExpression>
       <TypeId>1043</TypeId>
     </column>
-    <index id="41" parent="20" name="user_user_id_uindex">
-      <ObjectId>16701</ObjectId>
-      <ColNames>user_id</ColNames>
+    <index id="42" parent="20" name="user_pkey">
+      <ObjectId>16821</ObjectId>
+      <ColNames>user_name</ColNames>
       <Unique>1</Unique>
     </index>
+    <key id="43" parent="20" name="user_pkey">
+      <ObjectId>16822</ObjectId>
+      <ColNames>user_name</ColNames>
+      <UnderlyingIndexName>user_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
   </database-model>
 </dataSource>
