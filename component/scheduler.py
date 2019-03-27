@@ -101,18 +101,19 @@ class CrawlerScheduler(object):
     """
     self.thread_lock.acquire()
     repo_name = str(repo_info['repo_name'])
-    if repo_name in self.processed_repo_set:
+    user_name = repo_info['user_name']
+
+    if (user_name, repo_name) in self.processed_repo_set:
       self.thread_lock.release()
       return
     language = repo_info['language']
     if self.target_languages and language not in self.target_languages:
-      self.processed_repo_set.add(repo_name)
+      self.processed_repo_set.add((user_name, repo_name))
       self.thread_lock.release()
       return
-    self.processed_repo_set.add(repo_name)  # TODO: 改成in_processing_repo_set?
+    self.processed_repo_set.add((user_name, repo_name))
     self.thread_lock.release()
 
-    user_name = repo_info['user_name']
     default_branch = repo_info['default_branch']
 
     file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理

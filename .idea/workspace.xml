@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c40e62b2-13aa-4b3e-bc16-6a29b803170f" name="Default" comment="1. read_url加入了sleep, 限定了找star_gazers的翻页次数, 尽量避免http error 429&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/http_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/http_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/info_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/info_processor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/scheduler.py" afterDir="false" />
     </list>
     <ignored path="GithubSipder.iws" />
@@ -72,7 +69,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="md" value="15" />
-          <entry key="py" value="5429" />
+          <entry key="py" value="5440" />
           <entry key="sql" value="23" />
           <entry key="txt" value="480" />
         </counts>
@@ -81,7 +78,7 @@
         <counts>
           <entry key="Markdown" value="15" />
           <entry key="PLAIN_TEXT" value="480" />
-          <entry key="Python" value="5429" />
+          <entry key="Python" value="5440" />
           <entry key="SQL" value="23" />
         </counts>
       </usages-collector>
@@ -126,32 +123,18 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/component/scheduler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="452">
-              <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
+            <state relative-caret-position="544">
+              <caret line="117" column="4" selection-start-line="117" selection-start-column="4" selection-end-line="117" selection-end-column="4" />
               <folding>
                 <element signature="e#1#12#0" expanded="true" />
-                <marker date="1553670052589" expanded="true" signature="1074:1077" ph="..." />
-                <marker date="1553670052589" expanded="true" signature="2518:2523" ph="..." />
+                <marker date="1553670425693" expanded="true" signature="1074:1077" ph="..." />
+                <marker date="1553670425693" expanded="true" signature="2518:2523" ph="..." />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/5f758142-7c6c-4903-b11a-27e018a837e9/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="11" column="1" lean-forward="true" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/5f758142-7c6c-4903-b11a-27e018a837e9/console_1.sql">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -182,11 +165,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/component/http_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+            <state relative-caret-position="302">
+              <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
                 <marker date="1553670325796" expanded="true" signature="135:138" ph="..." />
@@ -276,9 +259,9 @@
         <option value="$PROJECT_DIR$/component/db_manager.py" />
         <option value="$PROJECT_DIR$/component/local_file_manager.py" />
         <option value="$PROJECT_DIR$/crawler.py" />
-        <option value="$PROJECT_DIR$/component/scheduler.py" />
         <option value="$PROJECT_DIR$/component/info_processor.py" />
         <option value="$PROJECT_DIR$/component/http_manager.py" />
+        <option value="$PROJECT_DIR$/component/scheduler.py" />
       </list>
     </option>
   </component>
@@ -664,7 +647,14 @@
       <option name="project" value="LOCAL" />
       <updated>1553668982708</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="1. read_url加入了sleep, 限定了找star_gazers的翻页次数, 尽量避免http error 429&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean">
+      <created>1553670361332</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1553670361332</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -676,7 +666,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32939914" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29855716" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29855716" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2963374" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -750,7 +740,8 @@
     <MESSAGE value="1. 根据html信息获取star的repos_info &amp; starred repos已经完成&#10;2. sql中加入record_time&#10;&#10;&#10;TODO:&#10;1. process_user&#10;2. download&amp;clean&#10;3. db" />
     <MESSAGE value="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;1. download&amp;clean&#10;2. db" />
     <MESSAGE value="1. 完成download&#10;&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. 完成download&#10;&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean" />
+    <MESSAGE value="1. read_url加入了sleep, 限定了找star_gazers的翻页次数, 尽量避免http error 429&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. read_url加入了sleep, 限定了找star_gazers的翻页次数, 尽量避免http error 429&#10;&#10;TODO:&#10;1. db&#10;2. 多线程&#10;3. clean" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -766,14 +757,14 @@
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/component/scheduler.py</url>
-          <line>128</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/component/local_file_manager.py</url>
           <line>15</line>
           <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/component/scheduler.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="52" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -945,18 +936,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/component/scheduler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
-          <folding>
-            <element signature="e#1#12#0" expanded="true" />
-            <marker date="1553670052589" expanded="true" signature="1074:1077" ph="..." />
-            <marker date="1553670052589" expanded="true" signature="2518:2523" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/old/by_user/download_by_user.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="837">
@@ -985,13 +964,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/component/http_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="302">
+          <caret line="19" column="12" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="12" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
             <marker date="1553670325796" expanded="true" signature="135:138" ph="..." />
             <marker date="1553670325796" expanded="true" signature="493:558" ph="..." />
             <marker date="1553670325796" expanded="true" signature="1778:1783" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/component/scheduler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="117" column="4" selection-start-line="117" selection-start-column="4" selection-end-line="117" selection-end-column="4" />
+          <folding>
+            <element signature="e#1#12#0" expanded="true" />
+            <marker date="1553670425693" expanded="true" signature="1074:1077" ph="..." />
+            <marker date="1553670425693" expanded="true" signature="2518:2523" ph="..." />
           </folding>
         </state>
       </provider>
