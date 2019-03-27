@@ -133,7 +133,8 @@ class HtmlInfoProcessor(InfoProcessor):
 
   def get_stargazers(self, url):
     star_gazers = []
-
+    cnt = 0
+    threshold = 1
     while url:
       page_source = self.http_manager.read_url(url)
       page_source = BeautifulSoup(page_source, 'lxml')
@@ -143,7 +144,9 @@ class HtmlInfoProcessor(InfoProcessor):
         user_name = gazer.find('h3', {'class': 'follow-list-name'}).find('a')['href'][1:]  # 得到的是/zsf5678, 用[1:]去掉'/'
         user_info = self.get_user_info(user_name)
         star_gazers.append(user_info)
-
+      cnt += 1
+      if cnt >= threshold:
+        break
       url = self.get_next_page_url(page_source)
 
     return star_gazers

@@ -1,22 +1,26 @@
 import urllib.request
 import socket
 import random
+import time
 from urllib.error import URLError, HTTPError
 
 
 class HttpManager(object):
-  def __init__(self, agents, use_proxy=False, default_timeout=0):
+  def __init__(self, agents, use_proxy=False, default_timeout=0, sleep_gap=1):
     self.agents = agents
     self.use_proxy = use_proxy
     self.default_timeout = default_timeout
+    self.sleep_gap = sleep_gap
     if self.default_timeout:
       socket.setdefaulttimeout(self.default_timeout)
 
   def download_connect(self, url):
+    time.sleep(self.sleep_gap)
     connect = urllib.request.urlopen(url)
     return connect
 
   def read_url(self, url):
+    time.sleep(self.sleep_gap)
     if not self.use_proxy:
       req = urllib.request.Request(url)
       req.add_header('User-Agent', self.agents[random.randint(0, len(self.agents) - 1)])

@@ -82,8 +82,9 @@ class CrawlerScheduler(object):
 
       starred_repo_infos = self.info_processor.get_repo_infos(user_name, 'starred')
       repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
-      repo_infos += starred_repo_infos
-      for repo_info in repo_infos:
+      starred_repo_infos.extend(repo_infos)
+      for repo_info in starred_repo_infos:
+        print(repo_info['repo_name'])
         self.process_repo(repo_info)
 
   def process_repo(self, repo_info):
