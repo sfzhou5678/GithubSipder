@@ -16,6 +16,10 @@ if __name__ == '__main__':
   seed_users = ['gaopu', 'sfzhou5678']
   target_languages = ['Java']
   threads = 0
+
+  unzip = False
+  clean_repo = False
+
   use_proxy = False
   default_timeout = 30
 
@@ -24,7 +28,7 @@ if __name__ == '__main__':
 
   db = DBManager()
   http_manager = HttpManager(agents, use_proxy=use_proxy, default_timeout=default_timeout)
-  file_manager = LocalFileManager(base_folder, http_manager)
+  file_manager = LocalFileManager(base_folder, http_manager, unzip=unzip, clean_repo=clean_repo)
   info_processor = HtmlInfoProcessor(http_manager)
   # info_processor=APIInfoProcessor(http_manager)
 

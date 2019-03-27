@@ -120,6 +120,8 @@ class HtmlInfoProcessor(InfoProcessor):
 
   def get_next_page_url(self, page_source):
     paginate_container = page_source.find('div', {'class': 'paginate-container'})
+    if not paginate_container:
+      return None
     next_btn = paginate_container.find_all('a', {'class': 'btn btn-outline BtnGroup-item'})[-1]
 
     if next_btn.text == 'Next':
@@ -129,8 +131,22 @@ class HtmlInfoProcessor(InfoProcessor):
 
     return url
 
-  def get_stargazers(self, stargazers_url):
-    pass
+  def get_stargazers(self, url):
+    star_gazers = []
+
+    while url:
+      page_source = self.http_manager.read_url(url)
+      page_source = BeautifulSoup(page_source, 'lxml')
+      gazer_list = page_source.find_all('li', {'class': 'follow-list-item float-left border-bottom'})
+      for i in range(len(gazer_list)):
+        gazer = gazer_list[i]
+        user_name = gazer.find('h3', {'class': 'follow-list-name'}).find('a')['href'][1:]  # 得到的是/zsf5678, 用[1:]去掉'/'
+        user_info = self.get_user_info(user_name)
+        star_gazers.append(user_info)
+
+      url = self.get_next_page_url(page_source)
+
+    return star_gazers
 
 
 class APIInfoProcessor(InfoProcessor):

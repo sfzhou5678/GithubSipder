@@ -1,12 +1,14 @@
+import time
 import os
 import json
+import random
 import threading
 
 
 class CrawlerScheduler(object):
   def __init__(self, target_languages, seed_users,
                db, http_manager, file_manager, info_processor,
-               threads=0):
+               threads=0, patience_threshold=30):
     """
     控制user_queue, processed_user_set,
      repo_queue,processed_repo_set
@@ -32,6 +34,8 @@ class CrawlerScheduler(object):
     self.user_name_set = set()
     self.processed_repo_set = set()
     self.user_stack = []
+    self.patience = 0
+    self.patience_threshold = patience_threshold
 
   def restore(self, log_path):
     pass
@@ -54,21 +58,31 @@ class CrawlerScheduler(object):
 
     :return:
     """
-    while len(self.user_stack):
+    while True:
       """
       每次拿出一个user, 做的事情有:
       1. 获取这个user所有star了的项目star_repos
       2. 获取当前用户自己的仓库repos
       3. repo_infos+=starred_repo_infos, 然后process repo_info(在这里下载当前repo(到owner的id目录), 同时将该项目的stargazers都加入user_stack)
       """
-
       self.thread_lock.acquire()
+      if len(self.user_stack) == 0:
+        self.patience += 1
+        self.thread_lock.release()
+        if self.patience >= self.patience_threshold:
+          break
+        time.sleep(random.randint(15, 60))
+        continue
+      else:
+        self.patience = 0
+
       print(len(self.user_stack))
       user_name = self.user_stack.pop()
       self.thread_lock.release()
 
       starred_repo_infos = self.info_processor.get_repo_infos(user_name, 'starred')
-      repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
+      repo_infos = []
+      # repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
       repo_infos += starred_repo_infos
       for repo_info in repo_infos:
         self.process_repo(repo_info)
@@ -109,7 +123,7 @@ class CrawlerScheduler(object):
       self.process_stargazers(stargazers)
 
     download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
-    relative_save_path = os.path.join('[%s]' % user_name, repo_name)  # 这个是存储到db的在base_folder之下的路径
+    relative_save_path = os.path.join('username_%s' % user_name, repo_name)  # 这个是存储到db的在base_folder之下的路径
     self.file_manager.download(download_url, relative_save_path)
 
     ## TODO: 2. save repo infos
@@ -121,7 +135,7 @@ class CrawlerScheduler(object):
     for user_info in stargazers:
       user_name = user_info['user_name']
       if user_name not in self.user_name_set:
-        user_info = self.info_processor.get_user_info(user_name)
+        # user_info = self.info_processor.get_user_info(user_name)
         self.db.record_user(user_info)
         self.user_name_set.add(user_name)
         self.user_stack.append(user_name)
