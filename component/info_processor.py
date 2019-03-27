@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import re
+import time
 
 
 class InfoProcessor(object):
@@ -60,7 +61,9 @@ class HtmlInfoProcessor(InfoProcessor):
       if type == self.type_map['starred']:
         project_list = bsobj.find_all('div', {'class': 'col-12 d-block width-full py-4 border-bottom'})
       else:
-        project_list = bsobj.find_all('div', {'class': 'col-12 d-flex width-full py-4 border-bottom public source'})
+        # 不会选中fork的项目
+        project_list = bsobj.find_all('li', {'class': 'col-12 d-flex width-full py-4 border-bottom public source'})
+
       for j in range(len(project_list)):
         project = project_list[j]
 
@@ -75,6 +78,10 @@ class HtmlInfoProcessor(InfoProcessor):
         except:
           repo_language = ''
 
+        try:
+          description = project.find('p', {'itemprop': "description"}).text
+        except:
+          description = ''
         star_cnt, fork_cnt = 0, 0
         cnt_info = project.find('div', {'class': 'f6 text-gray mt-2'}).find_all('a', {'class': 'muted-link mr-3'})
         for info in cnt_info:
@@ -82,7 +89,7 @@ class HtmlInfoProcessor(InfoProcessor):
           cnt = self.get_count(info.text)
           href = info['href']
           cnt_type = href.split('/')[-1]
-          if cnt_type  == 'stargazers':
+          if cnt_type == 'stargazers':
             star_cnt = cnt
           else:
             fork_cnt = cnt
@@ -92,11 +99,17 @@ class HtmlInfoProcessor(InfoProcessor):
                      'repo_name': repo_name,
                      'repo_url': repo_url,
                      'language': repo_language,
-                     'default_branch': None,
+                     'default_branch': 'master',
+                     'description': description,
                      'create_time': None,
                      'update_time': None,
+                     'record_time': time.strptime(time.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S"),
+
                      'star_cnt': star_cnt,
-                     'form_cnt': fork_cnt}
+                     'form_cnt': fork_cnt,
+
+                     'stargazers_url': repo_url + '/stargazers'
+                     }
         repo_infos.append(repo_info)
       url = self.get_next_page_url(bsobj)
     return repo_infos
@@ -117,7 +130,7 @@ class HtmlInfoProcessor(InfoProcessor):
     return url
 
   def get_stargazers(self, stargazers_url):
-    super().get_stargazers(stargazers_url)
+    pass
 
 
 class APIInfoProcessor(InfoProcessor):
@@ -161,6 +174,22 @@ class APIInfoProcessor(InfoProcessor):
     #   repos = []
     #   print('Get repos error_%s_%s' % (user_name, type))
     #   time.sleep(3)
+
+    # user_name=repo_info['owner']['login']
+    # repo_id = repo_info['repo_id']
+    # repo_url = repo_info['repo_url']
+    # default_branch = repo_info['default_branch']
+    # description = repo_info['description']
+    # if description is None:
+    #   description = ''
+    #
+    # create_time = transform_datetime(repo_info['created_at'])
+    # update_time = transform_datetime(repo_info['updated_at'])
+    #
+    # ## 因为要做personal, 所以就不舍star的阈值了, 不过之后可以在db里根据star数进行筛选
+    # star_cnt = repo_info['stargazers_count']
+    # fork_cnt = repo_info['forks_count']
+    #
     return repos
 
   def get_stargazers(self, stargazers_url):

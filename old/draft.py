@@ -6,11 +6,8 @@ import collections
 import datetime
 import time
 
-a = {'a': 123, "b": {'bb': "123", 'cc': 12345}}
+date = "2018-02-12T09:22:02Z"
+print(time.strptime(date, "%Y-%m-%dT%H:%M:%SZ"))
 
-
-
-
-
-transform(a, int, str)
-print(a)
+now = time.strptime(time.strftime("%Y-%m-%d %H:%M:%S"), "%Y-%m-%d %H:%M:%S")
+print(now)

@@ -76,7 +76,7 @@ class CrawlerScheduler(object):
   def process_repo(self, repo_info):
     """
     repo表(要过滤掉fork==True的项目):
-    user_id, repo_id, repo_name, repo_url,description,default_branch,
+    user_id, repo_name, repo_name, repo_url,description,default_branch,
     language, local_save_path,
     create_time, update_time,
     star_cnt, fork_cnt,
@@ -86,60 +86,43 @@ class CrawlerScheduler(object):
     :return:
     """
     self.thread_lock.acquire()
-    repo_id = str(repo_info['id'])
-    if repo_id in self.processed_repo_set:
-      self.thread_lock.release()
-      return
-    if repo_info['fork']:
-      self.processed_repo_set.add(repo_id)
+    repo_name = str(repo_info['repo_name'])
+    if repo_name in self.processed_repo_set:
       self.thread_lock.release()
       return
     language = repo_info['language']
     if self.target_languages and language not in self.target_languages:
-      self.processed_repo_set.add(repo_id)
+      self.processed_repo_set.add(repo_name)
       self.thread_lock.release()
       return
-    self.processed_repo_set.add(repo_id)  # TODO: 改成in_processing_repo_set?
+    self.processed_repo_set.add(repo_name)  # TODO: 改成in_processing_repo_set?
     self.thread_lock.release()
 
-    user_id = str(repo_info['owner']['id'])
-    user_name = repo_info['owner']['login']
-
-    repo_name = repo_info['name']
-    repo_url = repo_info['html_url']
+    user_name = repo_info['user_name']
     default_branch = repo_info['default_branch']
-    description = repo_info['description']
-    if description is None:
-      description = ''
-
-    create_time = transform_datetime(repo_info['created_at'])
-    update_time = transform_datetime(repo_info['updated_at'])
-
-    ## 因为要做personal, 所以就不舍star的阈值了, 不过之后可以在db里根据star数进行筛选
-    star_cnt = repo_info['stargazers_count']
-    fork_cnt = repo_info['forks_count']
 
     file_cnt, token_cnt, snippet_cnt = -1, -1, -1  ## 这些等待第二步处理
     ## 获取star了当前repo的所有用户的信息
     stargazers_url = repo_info['stargazers_url']
     stargazers = self.info_processor.get_stargazers(stargazers_url)
     if len(stargazers) > 0:
-      self.thread_lock.acquire()
-
-      for user_info in stargazers:
-        user_id = user_info['id']
-        user_name = user_info['login']
-        if user_name not in self.user_name_set:
-          user_info = self.info_processor.get_user_info(user_name)
-          self.db.record_user(user_info)
-          self.user_name_set.add(user_name)
-          self.user_stack.append(user_name)
-      self.thread_lock.release()
+      self.process_stargazers(stargazers)
 
     download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
-    relative_save_path = os.path.join('user_' + user_id, repo_name + '_' + repo_id)  # 这个是存储到db的在base_folder之下的路径
+    relative_save_path = os.path.join('[%s]' % user_name, repo_name)  # 这个是存储到db的在base_folder之下的路径
     self.file_manager.download(download_url, relative_save_path)
 
     ## TODO: 2. save repo infos
+    self.db.record_repo(repo_info)
 
-    processed_repo_set.add(repo_id)
+  def process_stargazers(self, stargazers):
+    self.thread_lock.acquire()
+
+    for user_info in stargazers:
+      user_name = user_info['user_name']
+      if user_name not in self.user_name_set:
+        user_info = self.info_processor.get_user_info(user_name)
+        self.db.record_user(user_info)
+        self.user_name_set.add(user_name)
+        self.user_stack.append(user_name)
+    self.thread_lock.release()

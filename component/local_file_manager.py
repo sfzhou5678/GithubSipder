@@ -17,6 +17,12 @@ class LocalFileManager(object):
     self.clean_repo(true_save_path)  ## local_save_path目录里将会有一个名为{repo_name}_{branch}的文件夹, 需要过滤文件并且删除该文件夹
 
   def do_download_repo(self, download_url, true_save_path):
+    """
+    注意: download_url有时候可能会出错(比如html版无法得到branch, 可能就会下错)
+    :param download_url:
+    :param true_save_path:
+    :return:
+    """
     if not os.path.exists(true_save_path):
       os.makedirs(true_save_path)
     true_save_path += '/repo.zip'

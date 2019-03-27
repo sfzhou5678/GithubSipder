@@ -21,7 +21,7 @@ user_id, user_name, user_url
 2. repo表(要过滤掉fork==True的项目):
 user_name, repo_id, repo_name, repo_url, description,default_branch,
 language, local_save_path,
-create_time, update_time,
+create_time, update_time, record_time,
 star_cnt, fork_cnt,
 file_cnt, token_cnt, snippet_cnt
 

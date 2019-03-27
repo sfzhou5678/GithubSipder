@@ -19,6 +19,7 @@ CREATE TABLE public.repo
   local_save_path varchar DEFAULT 256 NOT NULL,
   create_time time,
   update_time time,
+  record_time time,
   star_cnt int DEFAULT 0,
   fork_cnt int DEFAULT 0,
   file_cnt int DEFAULT -1,
