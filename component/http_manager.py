@@ -12,6 +12,10 @@ class HttpManager(object):
     if self.default_timeout:
       socket.setdefaulttimeout(self.default_timeout)
 
+  def download_connect(self, url):
+    connect = urllib.request.urlopen(url)
+    return connect
+
   def read_url(self, url):
     if not self.use_proxy:
       req = urllib.request.Request(url)

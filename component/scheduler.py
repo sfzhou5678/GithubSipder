@@ -81,8 +81,7 @@ class CrawlerScheduler(object):
       self.thread_lock.release()
 
       starred_repo_infos = self.info_processor.get_repo_infos(user_name, 'starred')
-      repo_infos = []
-      # repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
+      repo_infos = self.info_processor.get_repo_infos(user_name, 'repos')
       repo_infos += starred_repo_infos
       for repo_info in repo_infos:
         self.process_repo(repo_info)
@@ -123,8 +122,11 @@ class CrawlerScheduler(object):
       self.process_stargazers(stargazers)
 
     download_url = "https://codeload.github.com/%s/%s/zip/%s" % (user_name, repo_name, default_branch)
-    relative_save_path = os.path.join('username_%s' % user_name, repo_name)  # 这个是存储到db的在base_folder之下的路径
-    self.file_manager.download(download_url, relative_save_path)
+    relative_save_path = os.path.join('%s' % user_name,
+                                      '%s-%s' % (repo_name, default_branch))  # 这个是存储到db的在base_folder之下的路径
+    repo_info['relative_save_path'] = relative_save_path
+    self.file_manager.download(download_url, user_name,
+                               repo_name, default_branch)
 
     ## TODO: 2. save repo infos
     self.db.record_repo(repo_info)

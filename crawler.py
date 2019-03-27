@@ -21,7 +21,7 @@ if __name__ == '__main__':
   clean_repo = False
 
   use_proxy = False
-  default_timeout = 30
+  default_timeout = 10
 
   agents = [
     'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36']

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c40e62b2-13aa-4b3e-bc16-6a29b803170f" name="Default" comment="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;&#10;2. download&amp;clean&#10;3. db">
+    <list default="true" id="c40e62b2-13aa-4b3e-bc16-6a29b803170f" name="Default" comment="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;1. download&amp;clean&#10;2. db">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/info_processor.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/info_processor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/http_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/http_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component/local_file_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/local_file_manager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component/scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/component/scheduler.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/crawler.py" beforeDir="false" afterPath="$PROJECT_DIR$/crawler.py" afterDir="false" />
@@ -22,7 +22,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/GithubSpider$draft__1_.coverage" NAME="draft (1) Coverage Results" MODIFIED="1553664533716" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/old" />
     <SUITE FILE_PATH="coverage/GithubSipder$main.coverage" NAME="main Coverage Results" MODIFIED="1552920107574" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GithubSpider$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1553667183325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GithubSpider$crawler.coverage" NAME="crawler Coverage Results" MODIFIED="1553668785133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GithubSipder$download_by_user.coverage" NAME="download_by_user Coverage Results" MODIFIED="1519452899399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/by_user" />
     <SUITE FILE_PATH="coverage/GithubSpider$download_by_user__1_.coverage" NAME="download_by_user (1) Coverage Results" MODIFIED="1553605414734" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/old/by_user" />
     <SUITE FILE_PATH="coverage/GithubSipder$raft.coverage" NAME="raft Coverage Results" MODIFIED="1552918436467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -49,23 +49,23 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="md" value="15" />
-          <entry key="py" value="4962" />
+          <entry key="py" value="5253" />
           <entry key="sql" value="23" />
-          <entry key="txt" value="376" />
+          <entry key="txt" value="380" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Markdown" value="15" />
-          <entry key="PLAIN_TEXT" value="376" />
-          <entry key="Python" value="4962" />
+          <entry key="PLAIN_TEXT" value="380" />
+          <entry key="Python" value="5253" />
           <entry key="SQL" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="md" value="6" />
-          <entry key="py" value="22" />
+          <entry key="py" value="23" />
           <entry key="sql" value="2" />
           <entry key="txt" value="1" />
         </counts>
@@ -74,7 +74,7 @@
         <counts>
           <entry key="Markdown" value="6" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="22" />
+          <entry key="Python" value="23" />
           <entry key="SQL" value="2" />
         </counts>
       </usages-collector>
@@ -93,8 +93,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/crawler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="623">
-              <caret line="33" column="2" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
+            <state relative-caret-position="167">
+              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
               <folding>
                 <element signature="e#0#115#0" expanded="true" />
               </folding>
@@ -105,12 +105,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/component/scheduler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="403">
-              <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+            <state relative-caret-position="452">
+              <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
               <folding>
                 <element signature="e#1#12#0" expanded="true" />
-                <marker date="1553667017249" expanded="true" signature="1074:1077" ph="..." />
-                <marker date="1553667017249" expanded="true" signature="2491:2496" ph="..." />
+                <marker date="1553668730896" expanded="true" signature="1074:1077" ph="..." />
+                <marker date="1553668730896" expanded="true" signature="2467:2472" ph="..." />
               </folding>
             </state>
           </provider>
@@ -119,14 +119,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/component/local_file_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="38" column="11" lean-forward="true" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+            <state relative-caret-position="145">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <marker date="1553667156220" expanded="true" signature="58:61" ph="..." />
-                <marker date="1553667156220" expanded="true" signature="957:962" ph="..." />
-                <marker date="1553667156220" expanded="true" signature="1478:1482" ph="..." />
-                <marker date="1553667156220" expanded="true" signature="1479:1482" ph="..." />
+                <marker date="1553668698526" expanded="true" signature="58:61" ph="..." />
+                <marker date="1553668698526" expanded="true" signature="1078:1083" ph="..." />
+                <marker date="1553668698526" expanded="true" signature="1625:1629" ph="..." />
+                <marker date="1553668698526" expanded="true" signature="1626:1629" ph="..." />
               </folding>
             </state>
           </provider>
@@ -135,12 +135,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/component/http_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="133">
-              <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+            <state relative-caret-position="194">
+              <caret line="14" column="22" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="22" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
-                <marker date="1553609177610" expanded="true" signature="123:126" ph="..." />
-                <marker date="1553609177610" expanded="true" signature="1563:1568" ph="..." />
+                <marker date="1553667829109" expanded="true" signature="123:126" ph="..." />
+                <marker date="1553667829109" expanded="true" signature="406:471" ph="..." />
+                <marker date="1553667829109" expanded="true" signature="1660:1665" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/old/by_user/download_by_user.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="335">
+              <caret line="203" column="34" selection-start-line="203" selection-start-column="29" selection-end-line="203" selection-end-column="34" />
+              <folding>
+                <element signature="e#178#199#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -149,8 +162,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/component/info_processor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+            <state relative-caret-position="283">
+              <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
                 <element signature="e#1260#2453#0" />
@@ -215,7 +228,6 @@
         <option value="$PROJECT_DIR$/raft.py" />
         <option value="$PROJECT_DIR$/old/by_user/download_by_user.py" />
         <option value="$PROJECT_DIR$/main.py" />
-        <option value="$PROJECT_DIR$/component/http_manager.py" />
         <option value="$PROJECT_DIR$/component/__init__.py" />
         <option value="$PROJECT_DIR$/data/user_agents.txt" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -223,8 +235,9 @@
         <option value="$PROJECT_DIR$/old/draft.py" />
         <option value="$PROJECT_DIR$/component/db_manager.py" />
         <option value="$PROJECT_DIR$/component/info_processor.py" />
-        <option value="$PROJECT_DIR$/component/scheduler.py" />
+        <option value="$PROJECT_DIR$/component/http_manager.py" />
         <option value="$PROJECT_DIR$/component/local_file_manager.py" />
+        <option value="$PROJECT_DIR$/component/scheduler.py" />
         <option value="$PROJECT_DIR$/crawler.py" />
       </list>
     </option>
@@ -597,19 +610,26 @@
       <option name="project" value="LOCAL" />
       <updated>1553665956586</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;1. download&amp;clean&#10;2. db">
+      <created>1553667465966</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1553667465966</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.148533" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.148533" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32939914" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29855716" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29855716" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.2963374" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -681,7 +701,8 @@
     <MESSAGE value="1. 加入InfoProcessor(区分Html和API版本), 用于根据需求获取相关user, repos, star_gazers等的info&#10;&#10;&#10;TODO:&#10;1. 老爬虫的按user排列&#10;2. download&amp;clean&#10;3. db" />
     <MESSAGE value="1. 根据html信息获取star的repos_info已经完成&#10;2. 调整了创建sql的语句(repo中user_name代替user_id)&#10;&#10;&#10;TODO:&#10;1. html的self repos info&#10;2. download&amp;clean&#10;3. db" />
     <MESSAGE value="1. 根据html信息获取star的repos_info &amp; starred repos已经完成&#10;2. sql中加入record_time&#10;&#10;&#10;TODO:&#10;1. process_user&#10;2. download&amp;clean&#10;3. db" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. 根据html信息获取star的repos_info &amp; starred repos已经完成&#10;2. sql中加入record_time&#10;&#10;&#10;TODO:&#10;1. process_user&#10;2. download&amp;clean&#10;3. db" />
+    <MESSAGE value="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;1. download&amp;clean&#10;2. db" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. 可以获取star_gazers&#10;&#10;&#10;TODO:&#10;1. download&amp;clean&#10;2. db" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -698,7 +719,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/component/scheduler.py</url>
-          <line>126</line>
+          <line>127</line>
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -825,16 +846,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/old/by_user/download_by_user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="134" column="39" lean-forward="true" selection-start-line="128" selection-start-column="2" selection-end-line="134" selection-end-column="39" />
-          <folding>
-            <element signature="e#178#199#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -854,8 +865,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/component/info_processor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="145" lean-forward="true" selection-start-line="145" selection-end-line="145" />
+        <state relative-caret-position="283">
+          <caret line="106" lean-forward="true" selection-start-line="106" selection-end-line="106" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
             <element signature="e#1260#2453#0" />
@@ -868,48 +879,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/old/by_user/download_by_user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="203" column="34" selection-start-line="203" selection-start-column="29" selection-end-line="203" selection-end-column="34" />
+          <folding>
+            <element signature="e#178#199#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/component/http_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        <state relative-caret-position="194">
+          <caret line="14" column="22" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="22" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
-            <marker date="1553609177610" expanded="true" signature="123:126" ph="..." />
-            <marker date="1553609177610" expanded="true" signature="1563:1568" ph="..." />
+            <marker date="1553667829109" expanded="true" signature="123:126" ph="..." />
+            <marker date="1553667829109" expanded="true" signature="406:471" ph="..." />
+            <marker date="1553667829109" expanded="true" signature="1660:1665" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/component/local_file_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="38" column="11" lean-forward="true" selection-start-line="38" selection-start-column="11" selection-end-line="38" selection-end-column="11" />
+        <state relative-caret-position="145">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1553667156220" expanded="true" signature="58:61" ph="..." />
-            <marker date="1553667156220" expanded="true" signature="957:962" ph="..." />
-            <marker date="1553667156220" expanded="true" signature="1478:1482" ph="..." />
-            <marker date="1553667156220" expanded="true" signature="1479:1482" ph="..." />
+            <marker date="1553668698526" expanded="true" signature="58:61" ph="..." />
+            <marker date="1553668698526" expanded="true" signature="1078:1083" ph="..." />
+            <marker date="1553668698526" expanded="true" signature="1625:1629" ph="..." />
+            <marker date="1553668698526" expanded="true" signature="1626:1629" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/component/scheduler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+        <state relative-caret-position="452">
+          <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
           <folding>
             <element signature="e#1#12#0" expanded="true" />
-            <marker date="1553667017249" expanded="true" signature="1074:1077" ph="..." />
-            <marker date="1553667017249" expanded="true" signature="2491:2496" ph="..." />
+            <marker date="1553668730896" expanded="true" signature="1074:1077" ph="..." />
+            <marker date="1553668730896" expanded="true" signature="2467:2472" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crawler.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="623">
-          <caret line="33" column="2" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
+        <state relative-caret-position="167">
+          <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
           <folding>
             <element signature="e#0#115#0" expanded="true" />
           </folding>
