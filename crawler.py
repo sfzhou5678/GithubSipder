@@ -16,7 +16,7 @@ if __name__ == '__main__':
   db_config = 'data/db_info.json'
   seed_users = ['gaopu', 'sfzhou5678']
   target_languages = ['Java']
-  threads = 5
+  threads = 8
 
   unzip = True
   clean_repo = False
